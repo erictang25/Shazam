@@ -7,7 +7,7 @@ function songName = matching(testOption,clip,hashTable,songNameTable,gs,deltaTL,
     
     matchMatrix = [];
     for i = 1:length(hashClip)
-        match=find(hashTable(:,1)==hashClip(i,1));
+        match=find(hashTable(:,1)-hashClip(i,1)==0);
         matchMatrix=[matchMatrix;hashTable(match,2)-hashClip(i,2),hashTable(match,3)];
     end
     

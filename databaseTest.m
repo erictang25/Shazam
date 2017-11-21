@@ -4,7 +4,7 @@ tic
 incorrect=[];
 for i = 1:n
     clip = songNameTable{i};
-    songName=main(0,clip,hashTable,songNameTable);
+    songName=main(0,clip);
     if ~strcmp(songName,clip)
         incorrect = [incorrect i];
     end

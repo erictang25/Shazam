@@ -27,14 +27,15 @@ correct = {};% Array for saving names of a song that identified correctly
 incorrect = {};% Array for saving names of a song that identified incorrectly
 
 % Read files in directory "clipGaussian/"
-files = what('partITestDatabase');
+%files = what('partITestDatabase');
+files = what('songDatabase');
 matFiles = files.mat;
 
 % Perform Shazam on 20 test clips
-% for index = 1:length(matFiles)
-for index = 1:1
+  for index = 1:length(matFiles)
+% for index = 1:1
     fileName = matFiles{index};% Name of the test clip
-    toRead = ['partITestDatabase/',fileName];
+    toRead = ['songDatabase/',fileName];
     identifiedSong = main(1,toRead);% Identified clip by Shazam
     
     % For correct

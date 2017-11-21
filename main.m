@@ -1,10 +1,10 @@
-function songName = main(testOption,clipName,hashTable,songNameTable)
+function songName = main(testOption,clipName)
     gs=9;
     deltaTL=3;
     deltaTU=6;
     deltaF=9;
     
-    %make_database(gs,deltaTL,deltaTU,deltaF);
-    %hashTable=hash(database);
+    hashTable=load('hashTable.mat');
+    songNameTable=load('songNameTable.mat');
     
-    songName = matching(testOption,clipName,hashTable,songNameTable,gs,deltaTL,deltaTU,deltaF);
+    songName = matching(testOption,clipName,hashTable.hashTable,songNameTable.songNameTable,gs,deltaTL,deltaTU,deltaF);
