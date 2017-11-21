@@ -14,7 +14,7 @@ function songName = matching(testOption,clip,hashTable,songNameTable,gs,deltaTL,
    x = mode(matchMatrix(:,1));
    songIndex = find(matchMatrix(:,1)==x);
    nameMatrix = matchMatrix(songIndex,2);
-   songID = mode(nameMatrix(1:min(30,length(nameMatrix))));   
+   songID = mode(nameMatrix);   
    songName = songNameTable{songID};
     
     

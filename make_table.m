@@ -26,7 +26,7 @@ function table = make_table(songName,gs,deltaTL,deltaTU,deltaF)
      peaks = localPeak.*log_S;
      peaks = peaks(:);
      [maxPeaks ind] = sort(peaks);
-     maxPeaks(1:(end-30*len))=0;
+     maxPeaks(1:floor(end-30*len))=0;
      peaks(ind)=maxPeaks(1:end);
      localPeak = reshape(peaks,[nr,nc]);
      
