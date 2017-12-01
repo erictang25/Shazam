@@ -1,19 +1,16 @@
-function table = make_table(songName,gs,deltaTL,deltaTU,deltaF) 
-    
-     Fs = 8000;
-     originalSong = load(songName,'-mat');
-     resampledSong = resample(originalSong.y,Fs,44100);
+function table = make_table(songName,Fs,gs,deltaTL,deltaTU,deltaF) 
+
+     window = 64e-3*Fs;        %64e-3
+     noverlap = 32e-3*Fs;      %32e-3
+     nfft = 64e-3*Fs;          %64e-3
      
-     window = (64e-3)*Fs;
-     noverlap = (32e-3)*Fs;
-     nfft = (64e-3)*Fs;
-     
-     [S,F,T] = spectrogram(resampledSong(:,1),window,noverlap,nfft,Fs);
+     [S,F,T] = spectrogram(songName,window,noverlap,nfft,Fs);
      
      log_S = log10(abs(S)+1);
      [nr,nc]=size(log_S);
-     localPeak = 80*ones(nr,nc);      
+     localPeak = (gs*gs-1)*ones(nr,nc);      
      
+     % Find Local Peaks
      for r = -floor(gs/2):floor(gs/2) 
          for c = -floor(gs/2):floor(gs/2)
                 CS = circshift(log_S,[r c]);
@@ -22,6 +19,7 @@ function table = make_table(songName,gs,deltaTL,deltaTU,deltaF)
      end
      localPeak = (localPeak == 0);
      
+     % Thresholding
      len = T(end);
      peaks = localPeak.*log_S;
      peaks = peaks(:);
@@ -29,7 +27,8 @@ function table = make_table(songName,gs,deltaTL,deltaTU,deltaF)
      maxPeaks(1:floor(end-30*len))=0;
      peaks(ind)=maxPeaks(1:end);
      localPeak = reshape(peaks,[nr,nc]);
-     
+          
+     %Construct table
      table = [];
      [pR,pC] = find(localPeak);
      for i = 1:length(pR)
@@ -44,20 +43,18 @@ function table = make_table(songName,gs,deltaTL,deltaTU,deltaF)
                 j=j+1;
             end
           end
-     end
-%      
-%      figure
-%      imagesc(T,F,20*log10(abs(S)))
-%      axis xy
-%      xlabel('Time (s)')
-%      ylabel('Frequency (Hz)')
-%      title('Spectrogram')
+     end 
+     
+%     figure
+%     imagesc(T,F,20*log10(abs(S)))
+%     axis xy;
+%     xlabel('Time (s)')
+%     ylabel('Frequency (Hz)')
+%     title('Spectrogram')
 % 
-%      colormap jet
-%      c= colorbar;
-%      set(c)
-%      ylabel(c,'Power (dB)','FontSize',14) 
-
-
-    
+%     colormap jet
+%     c= colorbar;
+%     set(c);
+%     ylabel(c,'Power (dB)','FontSize',14); 
+   
 end

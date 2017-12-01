@@ -1,6 +1,16 @@
 function songName = matching(testOption,clip,hashTable,songNameTable,gs,deltaTL,deltaTU,deltaF)
-    
-    table=make_table(clip,gs,deltaTL,deltaTU,deltaF);
+     
+     % Load Song
+     Fs = 8000; % MUST MATCH Fs OF make_database!!!
+     originalSong = load(clip,'-mat');
+     resampledSong = resample(originalSong.y,Fs,44100);
+     
+     d = designfilt('lowpassiir','FilterOrder',8, ...
+         'PassbandFrequency',10e3,'PassbandRipple',0.2, ...
+         'SampleRate',45e3);
+     t = filter(d,resampledSong(:,1));
+
+    table=make_table(t,Fs,gs,deltaTL,deltaTU,deltaF);
     [nr,nc]=size(table); 
     table=[table,zeros(nr,1)];
     hashClip=hash(table);
