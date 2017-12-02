@@ -2,13 +2,17 @@ function songName = matching(testOption,clip,hashTable,songNameTable,gs,deltaTL,
      
      % Load Song
      Fs = 8000; % MUST MATCH Fs OF make_database!!!
-     originalSong = load(clip,'-mat');
-     resampledSong = resample(originalSong.y,Fs,44100);
      
-     d = designfilt('lowpassiir','FilterOrder',8, ...
+     if testOption == 1
+        originalSong = load(clip,'-mat');
+        resampledSong = resample(originalSong.y,Fs,44100);
+        clip = resampledSong(:,1);
+     end
+     
+    d = designfilt('lowpassiir','FilterOrder',8, ...
          'PassbandFrequency',10e3,'PassbandRipple',0.2, ...
          'SampleRate',45e3);
-     t = filter(d,resampledSong(:,1));
+    t = filter(d,clip);
 
     table=make_table(t,Fs,gs,deltaTL,deltaTU,deltaF);
     [nr,nc]=size(table); 

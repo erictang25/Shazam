@@ -45,16 +45,16 @@ function table = make_table(songName,Fs,gs,deltaTL,deltaTU,deltaF)
           end
      end 
      
-%     figure
-%     imagesc(T,F,20*log10(abs(S)))
-%     axis xy;
-%     xlabel('Time (s)')
-%     ylabel('Frequency (Hz)')
-%     title('Spectrogram')
-% 
-%     colormap jet
-%     c= colorbar;
-%     set(c);
-%     ylabel(c,'Power (dB)','FontSize',14); 
+    figure
+    imagesc(T,F,20*log10(abs(S)))
+    axis xy;
+    xlabel('Time (s)')
+    ylabel('Frequency (Hz)')
+    title('Spectrogram')
+
+    colormap jet
+    c= colorbar;
+    set(c);
+    ylabel(c,'Power (dB)','FontSize',14); 
    
 end
